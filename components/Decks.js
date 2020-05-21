@@ -7,6 +7,9 @@ class Decks extends React.Component {
     const data = getData();
     return (
       <View>
+        <View style={styles.tab}>
+          <Text style={{ color: "white", fontSize: 25 }}>Decks</Text>
+        </View>
         <View style={styles.DeckContainer}>
           {Object.keys(data).map((key) => {
             const { title, questions } = data[key];
@@ -42,5 +45,11 @@ const styles = StyleSheet.create({
     borderColor: "blue",
     borderWidth: 1,
     borderRadius: 10,
+  },
+  tab: {
+    height: 75,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "blue",
   },
 });

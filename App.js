@@ -22,9 +22,6 @@ export default class App extends React.Component {
     return (
       <NavigationContainer>
         <AppBar translucent backgroundColor="blue" barStyle="default" />
-        <View style={styles.tab}>
-          <Text style={{ color: "white", fontSize: 25 }}>Decks</Text>
-        </View>
         <Tab.Navigator
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
@@ -47,12 +44,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  tab: {
-    height: 75,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "blue",
-  },
-});
