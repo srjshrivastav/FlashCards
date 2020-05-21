@@ -25,3 +25,7 @@ function createData() {
     },
   };
 }
+
+export function getData() {
+  return createData();
+}
