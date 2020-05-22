@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
 import { getData } from "../utils/helpers";
 import { connect } from "react-redux";
 import { receiveDeck } from "../actions";
@@ -11,27 +18,33 @@ class Decks extends React.Component {
     dispatch(receiveDeck(data));
   }
 
+  Item({ item, navigation }) {
+    const { cards, title } = item;
+    console.log(item);
+    return (
+      <View>
+        <TouchableOpacity
+          style={styles.DeckCard}
+          onPress={() => navigation.navigate("Deck", { title, cards })}
+        >
+          <Text style={{ fontSize: 30, marginTop: 5 }}>{title}</Text>
+          <Text style={{ color: "gray", fontSize: 20 }}>{cards} cards</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
   render() {
     const { decks, navigation } = this.props;
     return (
-      <View>
-        <View style={styles.DeckContainer}>
-          {decks.map(({ title, cards }) => {
-            return (
-              <TouchableOpacity
-                key={title}
-                style={styles.DeckCard}
-                onPress={() => navigation.navigate("Deck", { title, cards })}
-              >
-                <Text style={{ fontSize: 30, marginTop: 5 }}>{title}</Text>
-                <Text style={{ color: "gray", fontSize: 20 }}>
-                  {cards} cards
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </View>
+      <SafeAreaView style={styles.DeckContainer}>
+        <FlatList
+          data={decks}
+          renderItem={(deck) => (
+            <this.Item item={deck.item} navigation={navigation} />
+          )}
+          keyExtractor={(deck) => deck.title}
+        />
+      </SafeAreaView>
     );
   }
 }
@@ -53,7 +66,8 @@ export default connect(mapStateToProps)(Decks);
 const styles = StyleSheet.create({
   DeckContainer: {
     flex: 1,
-    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 
   DeckCard: {
