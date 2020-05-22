@@ -7,32 +7,33 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 class QuizCard extends React.Component {
   state = {
     flip: false,
+    score: 0,
+    cardNo: 0,
   };
   render() {
     const { questions, cards } = this.props;
-    const { flip } = this.state;
+    const { flip, cardNo } = this.state;
     return (
       <View style={styles.container}>
-        <Text>{cards}</Text>
+        <Text style={{ fontSize: 25 }}>
+          {cardNo + 1}/{cards}
+        </Text>
         <View style={styles.CardContainer}>
           <FlipCard friction={10} clickable={false} flip={flip}>
             <View style={styles.Card}>
               <Text style={[styles.text, { fontSize: 50 }]}>
-                {questions[0].question}
+                {questions[cardNo].question}
               </Text>
               <TouchableOpacity
                 onPress={() =>
                   this.setState((state) => ({ flip: !state.flip }))
                 }
               >
-                <Text style={styles.btn}>Answer</Text>
+                <Text style={(styles.btn, {})}>Answer</Text>
               </TouchableOpacity>
               <View>
                 <TouchableOpacity
-                  style={[
-                    styles.cardBtn,
-                    { backgroundColor: "blue", marginTop: 150 },
-                  ]}
+                  style={[styles.cardBtn, { backgroundColor: "blue" }]}
                 >
                   <Text style={{ color: "white" }}>Correct</Text>
                 </TouchableOpacity>
@@ -43,7 +44,7 @@ class QuizCard extends React.Component {
             </View>
             <View style={styles.Card}>
               <Text style={[styles.text, { fontSize: 20, padding: 10 }]}>
-                {questions[0].answer}
+                {questions[cardNo].answer}
               </Text>
               <TouchableOpacity
                 onPress={() =>
