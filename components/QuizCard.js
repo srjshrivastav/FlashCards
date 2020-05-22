@@ -5,20 +5,66 @@ import FlipCard from "react-native-flip-card";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 class QuizCard extends React.Component {
+  state = {
+    flip: false,
+  };
   render() {
     const { questions, cards } = this.props;
+    const { flip } = this.state;
     return (
       <View style={styles.container}>
         <Text>{cards}</Text>
         <View style={styles.CardContainer}>
-          <FlipCard>
-            {/* Face Side */}
+          <FlipCard friction={10} clickable={false} flip={flip}>
             <View style={styles.Card}>
-              <Text>The Face</Text>
+              <Text style={[styles.text, { fontSize: 50 }]}>
+                {questions[0].question}
+              </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  this.setState((state) => ({ flip: !state.flip }))
+                }
+              >
+                <Text style={styles.btn}>Answer</Text>
+              </TouchableOpacity>
+              <View>
+                <TouchableOpacity
+                  style={[
+                    styles.cardBtn,
+                    { backgroundColor: "blue", marginTop: 150 },
+                  ]}
+                >
+                  <Text style={{ color: "white" }}>Correct</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.cardBtn, styles.IncBtn]}>
+                  <Text>Incorrect</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            {/* Back Side */}
             <View style={styles.Card}>
-              <Text>The Back</Text>
+              <Text style={[styles.text, { fontSize: 20, padding: 10 }]}>
+                {questions[0].answer}
+              </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  this.setState((state) => ({ flip: !state.flip }))
+                }
+              >
+                <Text style={styles.btn}>Question</Text>
+              </TouchableOpacity>
+              <View>
+                <TouchableOpacity
+                  style={[
+                    styles.cardBtn,
+                    { backgroundColor: "blue", marginTop: 150 },
+                  ]}
+                >
+                  <Text style={{ color: "white" }}>Correct</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.cardBtn, styles.IncBtn]}>
+                  <Text>Incorrect</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </FlipCard>
         </View>
@@ -56,5 +102,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  btn: {
+    color: "red",
+    fontSize: 20,
+  },
+  text: {
+    textAlign: "center",
+  },
+  cardBtn: {
+    borderRadius: 10,
+    width: 150,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
+  },
+  IncBtn: {
+    borderColor: "blue",
+    borderWidth: 1,
   },
 });
