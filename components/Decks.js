@@ -1,23 +1,31 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { getData } from "../utils/helpers";
+import { connect } from "react-redux";
+import { receiveDeck } from "../actions";
 
 class Decks extends React.Component {
-  render() {
+  componentDidMount() {
     const data = getData();
+    const { dispatch } = this.props;
+    dispatch(receiveDeck(data));
+  }
+
+  render() {
+    const { decks, navigation } = this.props;
     return (
       <View>
-        <View style={styles.tab}>
-          <Text style={{ color: "white", fontSize: 25 }}>Decks</Text>
-        </View>
         <View style={styles.DeckContainer}>
-          {Object.keys(data).map((key) => {
-            const { title, questions } = data[key];
+          {decks.map(({ title, cards }) => {
             return (
-              <TouchableOpacity key={key} style={styles.DeckCard}>
+              <TouchableOpacity
+                key={title}
+                style={styles.DeckCard}
+                onPress={() => navigation.navigate("Deck", { title, cards })}
+              >
                 <Text style={{ fontSize: 30, marginTop: 5 }}>{title}</Text>
                 <Text style={{ color: "gray", fontSize: 20 }}>
-                  {questions.length} cards
+                  {cards} cards
                 </Text>
               </TouchableOpacity>
             );
@@ -27,9 +35,21 @@ class Decks extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+  const decks = Object.keys(state).map((deck) => {
+    return {
+      title: state[deck].title,
+      cards: state[deck].questions.length,
+    };
+  });
+  return {
+    decks,
+  };
+}
 
-export default Decks;
+export default connect(mapStateToProps)(Decks);
 
+/////////////////////////Styling of the app/////////////////////
 const styles = StyleSheet.create({
   DeckContainer: {
     flex: 1,
@@ -45,11 +65,5 @@ const styles = StyleSheet.create({
     borderColor: "blue",
     borderWidth: 1,
     borderRadius: 10,
-  },
-  tab: {
-    height: 75,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "blue",
   },
 });

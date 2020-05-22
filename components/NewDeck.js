@@ -1,44 +1,66 @@
 import React from "react";
-import { Text, View, StyleSheet, TextInput, SafeAreaView } from "react-native";
+import { Text, View, StyleSheet, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { addDeck } from "../actions";
+import { connect } from "react-redux";
 
-export default class NewDeck extends React.Component {
+class NewDeck extends React.Component {
   state = {
-    text: "",
+    title: "",
+  };
+
+  handleAddDeck = () => {
+    const { dispatch, navigation } = this.props;
+    const { title } = this.state;
+    dispatch(
+      addDeck({
+        title,
+        questions: [],
+      })
+    );
+    navigation.navigate("Deck", { title, cards: 0 });
   };
   render() {
-    const setText = (text) => {
+    const setTittle = (title) => {
       this.setState(() => ({
-        text,
+        title,
       }));
     };
 
-    const { text } = this.state;
+    const { title } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <View style={styles.tab}>
-          <Text style={{ color: "white", fontSize: 25 }}>Add Deck</Text>
-        </View>
         <View style={styles.container}>
-          <Text style={{ fontSize: 40, paddingTop: 40 }}>
-            What is the title
+          <Text
+            style={{
+              fontSize: 50,
+              textAlign: "center",
+              paddingBottom: 10,
+              paddingTop: 10,
+            }}
+          >
+            What is the title of your new deck?
           </Text>
-          <Text style={{ fontSize: 40 }}>of your new</Text>
-          <Text style={{ fontSize: 40, paddingBottom: 20 }}>deck?</Text>
           <TextInput
             style={styles.textInput}
             placeholder="Deck Name"
-            onChangeText={(text) => setText(text)}
-            defaultValue={text}
+            onChangeText={(title) => setTittle(title)}
+            defaultValue={title}
           />
-          <TouchableOpacity style={styles.submitBtn} disabled={text === ""}>
-            <Text style={{ padding: 20 }}>ADD DECK</Text>
+          <TouchableOpacity
+            style={styles.submitBtn}
+            disabled={title === ""}
+            onPress={this.handleAddDeck}
+          >
+            <Text style={{ padding: 20 }}>Add Deck</Text>
           </TouchableOpacity>
         </View>
       </View>
     );
   }
 }
+
+export default connect()(NewDeck);
 
 const styles = StyleSheet.create({
   container: {
