@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Animated } from "react-native";
 import { connect } from "react-redux";
 import FlipCard from "react-native-flip-card";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -9,66 +9,143 @@ class QuizCard extends React.Component {
     flip: false,
     score: 0,
     cardNo: 0,
+    completed: false,
+    Percentage: 0,
+    bounceValue: new Animated.Value(1),
   };
+
+  handleSubmit = (cards, correct) => {
+    const { cardNo, bounceValue } = this.state;
+    console.log(cardNo, cards);
+    if (cardNo + 1 < cards) {
+      this.setState((state) => ({
+        cardNo: state.cardNo + 1,
+        score: correct ? state.score + 1 : state.score,
+      }));
+    } else {
+      this.setState((state) => ({
+        completed: true,
+        score: correct ? state.score + 1 : state.score,
+      }));
+      this.setState((state) => ({
+        Percentage: ((state.score / cards) * 100).toFixed(2),
+      }));
+      Animated.sequence([
+        Animated.timing(bounceValue, { duration: 200, toValue: 1.2 }),
+        Animated.spring(bounceValue, { friction: 2, toValue: 1 }),
+      ]).start();
+    }
+  };
+
   render() {
     const { questions, cards } = this.props;
-    const { flip, cardNo } = this.state;
-    return (
-      <View style={styles.container}>
+    const { flip, cardNo, completed, Percentage, bounceValue } = this.state;
+    console.log(this.state);
+    return !completed ? (
+      <View style={styles.Maincontainer}>
         <Text style={{ fontSize: 25 }}>
           {cardNo + 1}/{cards}
         </Text>
         <View style={styles.CardContainer}>
           <FlipCard friction={10} clickable={false} flip={flip}>
+            {/* Front Side */}
             <View style={styles.Card}>
-              <Text style={[styles.text, { fontSize: 50 }]}>
-                {questions[cardNo].question}
-              </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  this.setState((state) => ({ flip: !state.flip }))
-                }
-              >
-                <Text style={(styles.btn, {})}>Answer</Text>
-              </TouchableOpacity>
-              <View>
+              <View style={styles.conatiner}>
+                <Text style={{ fontSize: 30, textAlign: "center" }}>
+                  {questions[cardNo].question}
+                </Text>
                 <TouchableOpacity
-                  style={[styles.cardBtn, { backgroundColor: "blue" }]}
+                  onPress={() =>
+                    this.setState((state) => ({ flip: !state.flip }))
+                  }
+                >
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: "red",
+                      textAlign: "center",
+                    }}
+                  >
+                    Answer
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.btnContainer}>
+                <TouchableOpacity
+                  style={[styles.btn, { backgroundColor: "blue" }]}
+                  onPress={() => this.handleSubmit(cards, 1)}
                 >
                   <Text style={{ color: "white" }}>Correct</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.cardBtn, styles.IncBtn]}>
+                <TouchableOpacity
+                  style={[styles.btn, { borderColor: "blue", borderWidth: 1 }]}
+                  onPress={() => this.handleSubmit(cards, 0)}
+                >
                   <Text>Incorrect</Text>
                 </TouchableOpacity>
               </View>
             </View>
+            {/* Back Side */}
             <View style={styles.Card}>
-              <Text style={[styles.text, { fontSize: 20, padding: 10 }]}>
-                {questions[cardNo].answer}
-              </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  this.setState((state) => ({ flip: !state.flip }))
-                }
-              >
-                <Text style={styles.btn}>Question</Text>
-              </TouchableOpacity>
-              <View>
+              <View style={styles.conatiner}>
+                <Text style={{ fontSize: 25, textAlign: "center" }}>
+                  {questions[cardNo].answer}
+                </Text>
                 <TouchableOpacity
-                  style={[
-                    styles.cardBtn,
-                    { backgroundColor: "blue", marginTop: 150 },
-                  ]}
+                  onPress={() =>
+                    this.setState((state) => ({ flip: !state.flip }))
+                  }
+                >
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: "red",
+                      textAlign: "center",
+                    }}
+                  >
+                    Question
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.btnContainer}>
+                <TouchableOpacity
+                  style={[styles.btn, { backgroundColor: "blue" }]}
+                  onPress={() => this.handleSubmit(cards, 1)}
                 >
                   <Text style={{ color: "white" }}>Correct</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.cardBtn, styles.IncBtn]}>
+                <TouchableOpacity
+                  style={[styles.btn, { borderColor: "blue", borderWidth: 1 }]}
+                  onPress={() => this.handleSubmit(cards, 0)}
+                >
                   <Text>Incorrect</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </FlipCard>
         </View>
+      </View>
+    ) : (
+      <View style={styles.result}>
+        {Percentage < 75 ? (
+          <Animated.View style={{ transform: [{ scale: bounceValue }] }}>
+            <Text style={{ fontSize: 30, textAlign: "center" }}>
+              Hey! You can do better 🙂️
+            </Text>
+            <Text style={{ fontSize: 25, textAlign: "center" }}>
+              Percentage : {Percentage}
+            </Text>
+          </Animated.View>
+        ) : (
+          <Animated.View style={{ transform: [{ scale: bounceValue }] }}>
+            <Text style={{ fontSize: 30, textAlign: "center" }}>
+              Kudos! You scored good marks 😀️
+            </Text>
+            <Text style={{ fontSize: 25, textAlign: "center" }}>
+              Percentage : {Percentage}
+            </Text>
+          </Animated.View>
+        )}
       </View>
     );
   }
@@ -86,41 +163,43 @@ function mapStateToProps(state, { route }) {
 export default connect(mapStateToProps)(QuizCard);
 
 const styles = StyleSheet.create({
-  container: {
+  Maincontainer: {
     flex: 1,
   },
 
   CardContainer: {
     alignSelf: "center",
-    margin: 20,
+    paddingBottom: 60,
+    paddingTop: 20,
   },
 
   Card: {
-    height: 550,
+    flex: 1,
     width: 350,
     borderColor: "blue",
     borderRadius: 20,
     borderWidth: 1,
-    justifyContent: "center",
     alignItems: "center",
   },
+
+  conatiner: {
+    flex: 2,
+    marginTop: 20,
+  },
+  btnContainer: {
+    flex: 1,
+    justifyContent: "space-around",
+  },
   btn: {
-    color: "red",
-    fontSize: 20,
-  },
-  text: {
-    textAlign: "center",
-  },
-  cardBtn: {
     borderRadius: 10,
     width: 150,
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
   },
-  IncBtn: {
-    borderColor: "blue",
-    borderWidth: 1,
+  result: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
