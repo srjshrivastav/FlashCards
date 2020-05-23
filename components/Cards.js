@@ -1,29 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
-
-export function NotQuiz() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 20,
-      }}
-    >
-      <Text style={{ fontSize: 20, textAlign: "center" }}>
-        Sorry, you cannot take a quiz because there are no cards in the deck.
-      </Text>
-    </View>
-  );
-}
+import { deleteDeck } from "../actions";
 
 class Cards extends React.Component {
-  startQuiz = (title, cards, navigation) => {
-    return cards !== 0
-      ? navigation.navigate("Quiz", { title, cards })
-      : navigation.navigate("NotQuiz");
+  handleStartQuiz = (title, cards, navigation) => {
+    navigation.navigate("Quiz", { title, cards });
+  };
+
+  handleDelete = (title) => {
+    //Handle Delete
   };
 
   render() {
@@ -32,20 +18,26 @@ class Cards extends React.Component {
       <View style={styles.container}>
         <Text style={{ fontSize: 60 }}>{title}</Text>
         <Text style={{ fontSize: 20, color: "gray" }}>{cards} cards</Text>
-        <View style={styles.btnContainer}>
+        <View style={[styles.btnContainer, { alignItems: "center" }]}>
           <TouchableOpacity
             style={[styles.Btn, { backgroundColor: "blue" }]}
             onPress={() => {
               navigation.navigate("Add Card", { title });
             }}
           >
-            <Text style={{ color: "white", fontWeight: "bold" }}>Add Card</Text>
+            <Text style={{ color: "white" }}>Add Card</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.Btn}
-            onPress={() => this.startQuiz(title, cards, navigation)}
+            onPress={() => this.handleStartQuiz(title, cards, navigation)}
           >
-            <Text style={{ fontWeight: "bold" }}>Start Quiz</Text>
+            <Text>Start Quiz</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.handleDelete(title)}
+            style={{ marginTop: 20 }}
+          >
+            <Text style={{ color: "red", fontSize: 15 }}>Delete Deck</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -80,6 +72,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     justifyContent: "center",
-    paddingLeft: 70,
+    alignItems: "center",
   },
 });

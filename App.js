@@ -13,7 +13,7 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
-import Cards, { NotQuiz } from "./components/Cards";
+import Cards from "./components/Cards";
 import AddCard from "./components/AddCard";
 import QuizCard from "./components/QuizCard";
 
@@ -92,13 +92,6 @@ export default class App extends React.Component {
             <Deckstack.Screen
               name="Quiz"
               component={QuizCard}
-              options={{
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-              }}
-            />
-            <Deckstack.Screen
-              name="NotQuiz"
-              component={NotQuiz}
               options={{
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
               }}

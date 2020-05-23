@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { addDeck } from "../actions";
 import { connect } from "react-redux";
-
+import { saveDeckTitle } from "../utils/helpers";
 class NewDeck extends React.Component {
   state = {
     title: "",
@@ -12,12 +12,16 @@ class NewDeck extends React.Component {
   handleAddDeck = () => {
     const { dispatch, navigation } = this.props;
     const { title } = this.state;
+    this.setState(() => ({
+      title: "",
+    }));
     dispatch(
       addDeck({
         title,
         questions: [],
       })
     );
+    saveDeckTitle(title);
     navigation.navigate("Deck", { title, cards: 0 });
   };
   render() {

@@ -16,7 +16,6 @@ class QuizCard extends React.Component {
 
   handleSubmit = (cards, correct) => {
     const { cardNo, bounceValue } = this.state;
-    console.log(cardNo, cards);
     if (cardNo + 1 < cards) {
       this.setState((state) => ({
         cardNo: state.cardNo + 1,
@@ -40,7 +39,23 @@ class QuizCard extends React.Component {
   render() {
     const { questions, cards } = this.props;
     const { flip, cardNo, completed, Percentage, bounceValue } = this.state;
-    console.log(this.state);
+    if (cards == 0) {
+      return (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+        >
+          <Text style={{ fontSize: 20, textAlign: "center" }}>
+            Sorry, you cannot take a quiz because there are no cards in the
+            deck.
+          </Text>
+        </View>
+      );
+    }
     return !completed ? (
       <View style={styles.Maincontainer}>
         <Text style={{ fontSize: 25 }}>

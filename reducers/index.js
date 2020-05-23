@@ -1,4 +1,4 @@
-import { ADD_DECK, ADD_CARD, RECEIVE_DECK } from "../actions";
+import { ADD_DECK, ADD_CARD, RECEIVE_DECK, DELETE_DECK } from "../actions";
 
 export default function deck(state = {}, action) {
   switch (action.type) {
@@ -19,6 +19,12 @@ export default function deck(state = {}, action) {
       return {
         ...state,
         ...action.deck,
+      };
+    case DELETE_DECK:
+      delete state[action.title];
+      console.log("In Index", state);
+      return {
+        ...state,
       };
     default:
       return state;

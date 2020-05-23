@@ -10,17 +10,18 @@ import {
 import { getData } from "../utils/helpers";
 import { connect } from "react-redux";
 import { receiveDeck } from "../actions";
+import { getDecks } from "../utils/helpers";
 
 class Decks extends React.Component {
   componentDidMount() {
-    const data = getData();
-    const { dispatch } = this.props;
-    dispatch(receiveDeck(data));
+    getDecks().then((data) => {
+      console.log(data);
+      this.props.dispatch(receiveDeck(data));
+    });
   }
 
   Item({ item, navigation }) {
     const { cards, title } = item;
-    console.log(item);
     return (
       <View>
         <TouchableOpacity
