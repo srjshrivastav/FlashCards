@@ -14,7 +14,7 @@ class Cards extends React.Component {
       this.props.dispatch(deleteDeck(title.toLowerCase()));
     });
 
-    navigation.goBack();
+    navigation.navigate("Decks");
   };
 
   render() {
@@ -54,7 +54,9 @@ function mapStateToProps(state, { route }) {
   const title = route.params.title;
   return {
     title,
-    cards: state[title.toLowerCase()].questions.length,
+    cards: state[title.toLowerCase()]
+      ? state[title.toLowerCase()].questions.length
+      : null,
   };
 }
 

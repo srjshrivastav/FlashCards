@@ -55,8 +55,6 @@ export function removeDeck(key) {
   });
 }
 
-export function getDeck(id) {}
-
 export function saveDeckTitle(title) {
   const key = title.toLowerCase();
   const deck = {
