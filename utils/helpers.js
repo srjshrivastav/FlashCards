@@ -1,6 +1,9 @@
 import { AsyncStorage } from "react-native";
+import { Notifications } from "expo";
+import * as Permissions from "expo-permissions";
 
 const STORAGE_KEY = "FlashCards:decks";
+const NOTIFICATION_KEY = "FlashCards:notifications";
 
 function createData() {
   return {
@@ -80,4 +83,53 @@ export function addCardToDeck(title, card) {
     ]);
     AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(data));
   });
+}
+
+function createNotification() {
+  return {
+    title: "Quizz Time",
+    body: "Hey! Answer the some interesting quizzes",
+    ios: {
+      sound: true,
+    },
+    android: {
+      sound: true,
+      priority: "high",
+      sticky: false,
+      vibrate: true,
+    },
+  };
+}
+
+export function cancelLocalNotification() {
+  console.log("canceling...");
+  return AsyncStorage.removeItem(NOTIFICATION_KEY).then(
+    Notifications.cancelAllScheduledNotificationsAsync
+  );
+}
+
+export function setNotification() {
+  console.log("Setting for tommorw....");
+  AsyncStorage.getItem(NOTIFICATION_KEY)
+    .then(JSON.parse)
+    .then((data) => {
+      if (data === null) {
+        Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
+          if (status === "granted") {
+            Notifications.cancelAllScheduledNotificationsAsync();
+
+            let tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(17);
+            tomorrow.setMinutes(0);
+
+            Notifications.scheduleLocalNotificationAsync(createNotification(), {
+              time: tomorrow,
+              repeat: "day",
+            });
+            AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
+          }
+        });
+      }
+    });
 }

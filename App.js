@@ -16,6 +16,7 @@ import {
 import Cards from "./components/Cards";
 import AddCard from "./components/AddCard";
 import QuizCard from "./components/QuizCard";
+import { setNotification } from "./utils/helpers";
 
 const Tab = createBottomTabNavigator();
 const Deckstack = createStackNavigator();
@@ -52,6 +53,7 @@ function AppBar({ backgroundColor, ...props }) {
 
 export default class App extends React.Component {
   render() {
+    setNotification();
     return (
       <Provider store={createStore(reducers)}>
         <NavigationContainer>

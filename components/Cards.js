@@ -2,10 +2,16 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { deleteDeck } from "../actions";
-import { removeDeck } from "../utils/helpers";
+import {
+  removeDeck,
+  setNotification,
+  cancelLocalNotification,
+} from "../utils/helpers";
 
 class Cards extends React.Component {
   handleStartQuiz = (title, cards, navigation) => {
+    cancelLocalNotification();
+    setNotification();
     navigation.navigate("Quiz", { title, cards });
   };
 
