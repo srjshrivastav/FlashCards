@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import { addCard } from "../actions";
+import { addCardToDeck } from "../utils/helpers";
 
 class AddCard extends React.Component {
   state = {
@@ -22,6 +23,14 @@ class AddCard extends React.Component {
         },
       })
     );
+    addCardToDeck(route.params.title, {
+      title: route.params.title,
+      ques: {
+        question,
+        answer,
+      },
+    });
+
     navigation.goBack();
   };
 

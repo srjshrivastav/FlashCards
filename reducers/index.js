@@ -24,10 +24,9 @@ export default function deck(state = {}, action) {
         ...action.deck,
       };
     case DELETE_DECK:
-      delete state[action.title];
-      console.log("In Index", state);
       return {
         ...state,
+        ...delete state[action.title],
       };
     default:
       return state;

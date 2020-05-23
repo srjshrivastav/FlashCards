@@ -2,14 +2,19 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { deleteDeck } from "../actions";
+import { removeDeck } from "../utils/helpers";
 
 class Cards extends React.Component {
   handleStartQuiz = (title, cards, navigation) => {
     navigation.navigate("Quiz", { title, cards });
   };
 
-  handleDelete = (title) => {
-    //Handle Delete
+  handleDelete = (title, navigation) => {
+    removeDeck(title.toLowerCase()).then(() => {
+      this.props.dispatch(deleteDeck(title.toLowerCase()));
+    });
+
+    navigation.goBack();
   };
 
   render() {
@@ -34,7 +39,7 @@ class Cards extends React.Component {
             <Text>Start Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.handleDelete(title)}
+            onPress={() => this.handleDelete(title, navigation)}
             style={{ marginTop: 20 }}
           >
             <Text style={{ color: "red", fontSize: 15 }}>Delete Deck</Text>
@@ -47,7 +52,6 @@ class Cards extends React.Component {
 
 function mapStateToProps(state, { route }) {
   const title = route.params.title;
-  console.log(state);
   return {
     title,
     cards: state[title.toLowerCase()].questions.length,

@@ -46,6 +46,14 @@ export function getDecks() {
     })
     .catch((e) => console.log("wrong something"));
 }
+export function removeDeck(key) {
+  return AsyncStorage.getItem(STORAGE_KEY).then((results) => {
+    var data = JSON.parse(results);
+    data[key] = undefined;
+    delete data[key];
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  });
+}
 
 export function getDeck(id) {}
 
@@ -57,21 +65,21 @@ export function saveDeckTitle(title) {
       questions: [],
     },
   };
-  return AsyncStorage.getItem(STORAGE_KEY)
-    .then(JSON.parse)
-    .then((data) => {
-      if (!data[key]) {
-        AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(deck));
-        return true;
-      } else {
-        return false;
-      }
-    });
+  return getDecks().then((data) => {
+    if (!data[key]) {
+      AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(deck));
+      return true;
+    } else {
+      return false;
+    }
+  });
 }
 export function addCardToDeck(title, card) {
-  AsyncStorage.multiGet([STORAGE_KEY, title.toLowerCase()])
-    .then(JSON.parse)
-    .then((data) => {
-      console.log(data);
-    });
+  return getDecks().then((data) => {
+    Object.assign(data[title.toLowerCase()].questions, [
+      ...data[title.toLowerCase()].questions,
+      card.ques,
+    ]);
+    AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(data));
+  });
 }
