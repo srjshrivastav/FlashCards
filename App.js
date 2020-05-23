@@ -64,39 +64,24 @@ export default class App extends React.Component {
               headerStyle: {
                 backgroundColor: "blue",
               },
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
               headerTitleAlign: "center",
               headerTitleStyle: {
                 fontSize: 25,
               },
             }}
           >
-            <Deckstack.Screen
-              name="Decks"
-              component={HomeStack}
-              options={{
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-              }}
-            />
+            <Deckstack.Screen name="Decks" component={HomeStack} />
             <Deckstack.Screen
               name="Deck"
               component={Cards}
-              options={{
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-              }}
+              options={({ route }) => ({ title: route.params.title })}
             />
-            <Deckstack.Screen
-              name="Add Card"
-              component={AddCard}
-              options={{
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-              }}
-            />
+            <Deckstack.Screen name="Add Card" component={AddCard} />
             <Deckstack.Screen
               name="Quiz"
               component={QuizCard}
-              options={{
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-              }}
+              options={({ route }) => ({ title: route.params.title })}
             />
           </Deckstack.Navigator>
         </NavigationContainer>
