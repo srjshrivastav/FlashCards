@@ -61,7 +61,7 @@ class NewDeck extends React.Component {
             disabled={title === ""}
             onPress={this.handleAddDeck}
           >
-            <Text style={{ padding: 20 }}>Add Deck</Text>
+            <Text style={{ padding: 20 }}>Create Deck</Text>
           </TouchableOpacity>
         </View>
       </View>
