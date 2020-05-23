@@ -5,13 +5,26 @@ import FlipCard from "react-native-flip-card";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 class QuizCard extends React.Component {
-  state = {
-    flip: false,
-    score: 0,
-    cardNo: 0,
-    completed: false,
-    Percentage: 0,
-    bounceValue: new Animated.Value(1),
+  constructor(props) {
+    super(props);
+    this.state = {
+      flip: false,
+      score: 0,
+      cardNo: 0,
+      completed: false,
+      Percentage: 0,
+      bounceValue: new Animated.Value(1),
+    };
+
+    this.baseState = this.state;
+  }
+
+  RestartQuiz = () => {
+    this.setState(this.baseState);
+  };
+
+  handleStartQuiz = (title, cards, navigation) => {
+    navigation.navigate("Quiz", { title, cards });
   };
 
   handleSubmit = (cards, correct) => {
@@ -37,7 +50,7 @@ class QuizCard extends React.Component {
   };
 
   render() {
-    const { questions, cards } = this.props;
+    const { questions, cards, navigation, title } = this.props;
     const { flip, cardNo, completed, Percentage, bounceValue } = this.state;
     if (cards == 0) {
       return (
@@ -90,13 +103,15 @@ class QuizCard extends React.Component {
                   style={[styles.btn, { backgroundColor: "blue" }]}
                   onPress={() => this.handleSubmit(cards, 1)}
                 >
-                  <Text style={{ color: "white" }}>Correct</Text>
+                  <Text style={[styles.btntext, { color: "white" }]}>
+                    Correct
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.btn, { borderColor: "blue", borderWidth: 1 }]}
                   onPress={() => this.handleSubmit(cards, 0)}
                 >
-                  <Text>Incorrect</Text>
+                  <Text style={styles.btntext}>Incorrect</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -127,13 +142,15 @@ class QuizCard extends React.Component {
                   style={[styles.btn, { backgroundColor: "blue" }]}
                   onPress={() => this.handleSubmit(cards, 1)}
                 >
-                  <Text style={{ color: "white" }}>Correct</Text>
+                  <Text style={[styles.btntext, { color: "white" }]}>
+                    Correct
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.btn, { borderColor: "blue", borderWidth: 1 }]}
                   onPress={() => this.handleSubmit(cards, 0)}
                 >
-                  <Text>Incorrect</Text>
+                  <Text style={styles.btntext}>Incorrect</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -150,6 +167,12 @@ class QuizCard extends React.Component {
             <Text style={{ fontSize: 25, textAlign: "center" }}>
               Percentage : {Percentage}
             </Text>
+            <TouchableOpacity
+              onPress={this.RestartQuiz}
+              style={[styles.btn, styles.RestartBtn]}
+            >
+              <Text style={styles.btntext}>Restart Quiz</Text>
+            </TouchableOpacity>
           </Animated.View>
         ) : (
           <Animated.View style={{ transform: [{ scale: bounceValue }] }}>
@@ -159,6 +182,12 @@ class QuizCard extends React.Component {
             <Text style={{ fontSize: 25, textAlign: "center" }}>
               Percentage : {Percentage}
             </Text>
+            <TouchableOpacity
+              onPress={this.RestartQuiz}
+              style={[styles.btn, styles.RestartBtn]}
+            >
+              <Text style={styles.btntext}>Restart Quiz</Text>
+            </TouchableOpacity>
           </Animated.View>
         )}
       </View>
@@ -172,6 +201,7 @@ function mapStateToProps(state, { route }) {
   return {
     questions,
     cards,
+    title,
   };
 }
 
@@ -216,5 +246,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  RestartBtn: {
+    marginTop: 50,
+    borderColor: "blue",
+    borderWidth: 1,
+    alignSelf: "center",
+  },
+  btntext: {
+    fontSize: 15,
   },
 });
