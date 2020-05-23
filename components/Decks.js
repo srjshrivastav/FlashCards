@@ -7,7 +7,6 @@ import {
   FlatList,
   SafeAreaView,
 } from "react-native";
-import { setData } from "../utils/helpers";
 import { connect } from "react-redux";
 import { receiveDeck } from "../actions";
 import { getDecks } from "../utils/helpers";
