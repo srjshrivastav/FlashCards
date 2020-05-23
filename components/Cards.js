@@ -47,9 +47,10 @@ class Cards extends React.Component {
 
 function mapStateToProps(state, { route }) {
   const title = route.params.title;
+  console.log(state);
   return {
     title,
-    cards: state[title].questions.length,
+    cards: state[title.toLowerCase()].questions.length,
   };
 }
 

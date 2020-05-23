@@ -4,7 +4,7 @@ const STORAGE_KEY = "FlashCards:decks";
 
 function createData() {
   return {
-    React: {
+    react: {
       title: "React",
       questions: [
         {
@@ -17,7 +17,7 @@ function createData() {
         },
       ],
     },
-    JavaScript: {
+    javascript: {
       title: "JavaScript",
       questions: [
         {
@@ -38,7 +38,11 @@ export function getDecks() {
   return AsyncStorage.getItem(STORAGE_KEY)
     .then(JSON.parse)
     .then((data) => {
-      return data;
+      if (!data) {
+        setData();
+      } else {
+        return data;
+      }
     })
     .catch((e) => console.log("wrong something"));
 }
@@ -46,14 +50,28 @@ export function getDecks() {
 export function getDeck(id) {}
 
 export function saveDeckTitle(title) {
+  const key = title.toLowerCase();
   const deck = {
-    title,
-    questions: [],
+    [key]: {
+      title,
+      questions: [],
+    },
   };
-  AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(createData()))
-    .then(() => {
-      getDecks();
-    })
-    .catch((e) => console.log(e));
+  return AsyncStorage.getItem(STORAGE_KEY)
+    .then(JSON.parse)
+    .then((data) => {
+      if (!data[key]) {
+        AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(deck));
+        return true;
+      } else {
+        return false;
+      }
+    });
 }
-export function addCardToDeck(title, card) {}
+export function addCardToDeck(title, card) {
+  AsyncStorage.multiGet([STORAGE_KEY, title.toLowerCase()])
+    .then(JSON.parse)
+    .then((data) => {
+      console.log(data);
+    });
+}

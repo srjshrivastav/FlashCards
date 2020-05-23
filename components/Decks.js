@@ -15,9 +15,7 @@ import { getDecks } from "../utils/helpers";
 class Decks extends React.Component {
   componentDidMount() {
     getDecks().then((data) => {
-      console.log(data);
       if (data === undefined) {
-        setData();
         getDecks().then((data) => {
           this.props.dispatch(receiveDeck(data));
         });

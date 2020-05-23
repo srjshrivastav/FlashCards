@@ -13,7 +13,7 @@ export default function deck(state = {}, action) {
     case ADD_DECK:
       return {
         ...state,
-        [action.deck.title]: action.deck,
+        [action.deck.title.toLowerCase()]: action.deck,
       };
     case RECEIVE_DECK:
       return {

@@ -15,14 +15,19 @@ class NewDeck extends React.Component {
     this.setState(() => ({
       title: "",
     }));
-    dispatch(
-      addDeck({
-        title,
-        questions: [],
-      })
-    );
-    saveDeckTitle(title);
-    navigation.navigate("Deck", { title, cards: 0 });
+    saveDeckTitle(title).then((result) => {
+      if (!result) {
+        alert("Deck already Exist.Try with another name.");
+      } else {
+        dispatch(
+          addDeck({
+            title,
+            questions: [],
+          })
+        );
+        navigation.navigate("Deck", { title, cards: 0 });
+      }
+    });
   };
   render() {
     const setTittle = (title) => {

@@ -168,7 +168,7 @@ class QuizCard extends React.Component {
 function mapStateToProps(state, { route }) {
   const title = route.params.title;
   const cards = route.params.cards;
-  const questions = state[title].questions;
+  const questions = state[title.toLowerCase()].questions;
   return {
     questions,
     cards,
