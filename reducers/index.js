@@ -5,9 +5,12 @@ export default function deck(state = {}, action) {
     case ADD_CARD:
       return {
         ...state,
-        [action.card.title]: {
-          ...state[action.card.title],
-          questions: [...state[action.card.title].questions, action.card.ques],
+        [action.card.title.toLowerCase()]: {
+          ...state[action.card.title.toLowerCase()],
+          questions: [
+            ...state[action.card.title.toLowerCase()].questions,
+            action.card.ques,
+          ],
         },
       };
     case ADD_DECK:
