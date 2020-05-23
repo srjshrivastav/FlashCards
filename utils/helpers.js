@@ -30,8 +30,8 @@ function createData() {
   };
 }
 
-export function getData() {
-  return createData();
+export function setData() {
+  AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(createData()));
 }
 
 export function getDecks() {
@@ -46,10 +46,10 @@ export function getDecks() {
 export function getDeck(id) {}
 
 export function saveDeckTitle(title) {
-  // const deck = {
-  //   title,
-  //   questions: [],
-  // };
+  const deck = {
+    title,
+    questions: [],
+  };
   AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(createData()))
     .then(() => {
       getDecks();

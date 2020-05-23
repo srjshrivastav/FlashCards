@@ -7,7 +7,7 @@ import {
   FlatList,
   SafeAreaView,
 } from "react-native";
-import { getData } from "../utils/helpers";
+import { setData } from "../utils/helpers";
 import { connect } from "react-redux";
 import { receiveDeck } from "../actions";
 import { getDecks } from "../utils/helpers";
@@ -16,7 +16,14 @@ class Decks extends React.Component {
   componentDidMount() {
     getDecks().then((data) => {
       console.log(data);
-      this.props.dispatch(receiveDeck(data));
+      if (data === undefined) {
+        setData();
+        getDecks().then((data) => {
+          this.props.dispatch(receiveDeck(data));
+        });
+      } else {
+        this.props.dispatch(receiveDeck(data));
+      }
     });
   }
 
