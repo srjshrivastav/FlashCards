@@ -19,18 +19,18 @@ This is an mobile application that contains different decks and each deck contai
 
 1.Run the Following command-
 
--git clone https://github.com/srjshrivastav/FlashCards
+```bash
+$ git clone https://github.com/srjshrivastav/FlashCards
+$ cd FlashCards
+$ npm install
+```
 
-2.Then open terminal and enter to the project directory and run following command to install all the dependencies
-
--npm install
-
-3.After that,Run following command to start the project
+2.After that,Run following command to start the project
 
 -npm start or expo start
 
-4.Then press a for opening application on android device or i for ios
+3.Then press a for opening application on android device or i for ios
 
 ## ScreenShots
 
-![Decks Window](https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/Decks.jpg)
+![Home](https://raw.githubusercontent.com/srjshrivastav/FlashCards/master/ScreenShots/Decks.jpg){:height="50%" width="50%"}
