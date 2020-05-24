@@ -102,14 +102,12 @@ function createNotification() {
 }
 
 export function cancelLocalNotification() {
-  console.log("canceling...");
   return AsyncStorage.removeItem(NOTIFICATION_KEY).then(
     Notifications.cancelAllScheduledNotificationsAsync
   );
 }
 
 export function setNotification() {
-  console.log("Setting for tommorw....");
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
     .then((data) => {

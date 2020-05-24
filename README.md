@@ -28,3 +28,5 @@ This is an mobile application that contains different decks and each deck contai
 3.After that,Run following command to start the project
 
 -npm start or expo start
+
+4.Then press a for opening application on android device or i for ios
