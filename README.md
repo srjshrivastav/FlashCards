@@ -33,4 +33,4 @@ $ npm install
 
 ## ScreenShots
 
-![Home](https://raw.githubusercontent.com/srjshrivastav/FlashCards/master/ScreenShots/Decks.jpg){:height="50%" width="50%"}
+<img src="https://raw.githubusercontent.com/srjshrivastav/FlashCards/master/ScreenShots/Decks.jpg" width="400" height="790">
