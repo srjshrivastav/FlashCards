@@ -19,7 +19,7 @@ This is an mobile application that contains different decks and each deck contai
 
 1.Run the Following command-
 
--git clone git@github.com:srjshrivastav/Would-You-Rather-.git
+-git clone https://github.com/srjshrivastav/FlashCards
 
 2.Then open terminal and enter to the project directory and run following command to install all the dependencies
 
@@ -33,4 +33,4 @@ This is an mobile application that contains different decks and each deck contai
 
 ## ScreenShots
 
-![Alt Decks](/ScreenShots/Decks.jps?raw=true "Listed All Quizzes")
+![Decks Window](https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/Decks.jpg,"List of Quizzes")
