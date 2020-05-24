@@ -30,3 +30,7 @@ This is an mobile application that contains different decks and each deck contai
 -npm start or expo start
 
 4.Then press a for opening application on android device or i for ios
+
+## ScreenShots
+
+![Alt Decks](/ScreenShots/Decks.jps?raw=true "Listed All Quizzes")
