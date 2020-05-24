@@ -33,9 +33,11 @@ $ npm install
 
 ## ScreenShots
 
-<img src="https://raw.githubusercontent.com/srjshrivastav/FlashCards/master/ScreenShots/Decks.jpg" width="200" height="395">
-<img src="https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/ADD_DECK.jpg" width="200" height="395">
+<p float="left">
+<img src="https://raw.githubusercontent.com/srjshrivastav/FlashCards/master/ScreenShots/Decks.jpg" width="200" height="395"> <img src="https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/ADD_DECK.jpg" width="200" height="395">
+
 <img src="https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/Ind_Deck.jpg" width="200" height="395">
 <img src="https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/ADD_CARD.jpg" width="200" height="395">
+</p>
 <img src="https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/Quiz.jpg" width="200" height="395">
 <img src="https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/Result.jpg" width="200" height="395">
