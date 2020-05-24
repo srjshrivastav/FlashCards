@@ -33,4 +33,4 @@ This is an mobile application that contains different decks and each deck contai
 
 ## ScreenShots
 
-![Decks Window](https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/Decks.jpg,"List of Quizzes")
+![Decks Window](https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/Decks.jpg)
