@@ -45,3 +45,10 @@ $ npm install
 <img src="https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/Quiz.jpg" width="200" height="395" hspace="20">
 <img src="https://github.com/srjshrivastav/FlashCards/blob/master/ScreenShots/Result.jpg" width="200" height="395" hspace="20">
 </p>
+
+## Platforms
+
+| Platform | Tested             | Notes                |
+| :------- | :----------------- | :------------------- |
+| iOS      | :x:                |                      |
+| Android  | :white_check_mark: | Tested on Android 10 |
